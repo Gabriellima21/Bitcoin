@@ -1,14 +1,10 @@
 package br.com.projeto.bitcoin.service;
-
-import java.util.List;
-
+ 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import br.com.projeto.bitcoin.dto.BitcoinDTO;
 import br.com.projeto.bitcoin.dto.SaldoDTO;
 import br.com.projeto.bitcoin.entity.Bitcoin;
-import br.com.projeto.bitcoin.entity.SaldoDetalhado;
 import br.com.projeto.bitcoin.entity.Total;
 import br.com.projeto.bitcoin.exception.BitcoinException;
 import br.com.projeto.bitcoin.repository.BitcoinRepository;
@@ -44,29 +40,17 @@ public class BitcoinService {
 		//s.setSaldoNaoConfirmado(bitcoin.getSaldoDetalhado().getSaldoNaoConfirmado());
 		bitcoinDTO.setSaldoDetalhado(bitcoin.getSaldoDetalhado());
 		bitcoinDTO.setTotal(bitcoin.getTotal());
-		
 		return bitcoinDTO;
 	}
 	
-	/*public SaldoDTO findSaldoByEndereco (String endereco) {
-		return bitcoinRepository. findSaldoByEndereco(endereco);
-	}*/
-	
-	/*public SaldoConfirmadoDTO returnSaldoConfirmado(Bitcoin bitcoin) {
-		SaldoConfirmadoDTO sc = new SaldoConfirmadoDTO();
-		sc.setSaldoConfirmado(bitcoin.getSaldoConfirmado());
-		
-	}*/
-	
-	/*public List<BigInteger> calculateBalance(String address) {
-        List<Bitcoin> utxoList = bitcoinRepository.findUtxoByEnderecoLike(address);
-
-        BigInteger saldoConfirmado = BigInteger.ZERO; //inicia zarado
-        BigInteger saldoNaoConfirmado = BigInteger.ZERO; //inicia zarado
-
-        for () {
-        	
-        }
-          
-    }*/
+	public SaldoDTO findBySaldoDetalhadoEndereco(String address) {
+		if(address == null || address.isBlank()) {
+			throw new BitcoinException(ENDERECO_BITCOIN_NAO_INFORMADO);
+		}
+		Bitcoin bitcoin = bitcoinRepository.findByEnderecoLike(address);
+		SaldoDTO saldoDTO = new SaldoDTO();
+		saldoDTO.setSaldoConfirmado(bitcoin.getSaldoDetalhado().getSaldoConfirmado());
+		saldoDTO.setSaldoNaoConfirmado(bitcoin.getSaldoDetalhado().getSaldoNaoConfirmado());
+		return saldoDTO;
+	}
 }
