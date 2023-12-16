@@ -3,6 +3,7 @@ package br.com.projeto.bitcoin.entity;
 import java.math.BigInteger;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,25 +15,20 @@ public class Bitcoin {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
-	@Column(name = "endereco", length = 42, nullable = false)
-	String endereco;
+	private Integer id;
+	@Column(name = "endereco", length = 42, nullable = false,unique = true)
+	private String endereco;
 	@Column(name = "saldo", nullable = false)
-	BigInteger saldo;
+	private BigInteger saldo;
 	@Column(name = "taxa_tx", nullable = false)
-	BigInteger taxaTX;
+	private BigInteger taxaTX;
 	@ManyToOne
-	@JoinColumn(name = "saldo_confirmado", nullable = false)
-	SaldoDetalhado saldoConfirmado;
+	@JoinColumn(name = "saldo_detalhado", nullable = false)
+	private SaldoDetalhado saldoDetalhado;
 	@ManyToOne
-	@JoinColumn(name = "saldo_nao_confirmado", nullable = false)
-	SaldoDetalhado saldoNaoConfirmado;
-	@ManyToOne
-	@JoinColumn(name = "total_enviado", nullable = false)
-	Total totalEnviado;
-	@ManyToOne
-	@JoinColumn(name = "total_recebido", nullable = false)
-	Total totalRecebido;
+	@JoinColumn(name = "total", nullable = false)
+	private Total total;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -57,28 +53,16 @@ public class Bitcoin {
 	public void setTaxaTX(BigInteger taxaTX) {
 		this.taxaTX = taxaTX;
 	}
-	public SaldoDetalhado getSaldoConfirmado() {
-		return saldoConfirmado;
+	public SaldoDetalhado getSaldoDetalhado() {
+		return saldoDetalhado;
 	}
-	public void setSaldoConfirmado(SaldoDetalhado saldoConfirmado) {
-		this.saldoConfirmado = saldoConfirmado;
+	public void setSaldoDetalhado(SaldoDetalhado saldoDetalhado) {
+		this.saldoDetalhado = saldoDetalhado;
 	}
-	public SaldoDetalhado getSaldoNaoConfirmado() {
-		return saldoNaoConfirmado;
+	public Total getTotal() {
+		return total;
 	}
-	public void setSaldoNaoConfirmado(SaldoDetalhado saldoNaoConfirmado) {
-		this.saldoNaoConfirmado = saldoNaoConfirmado;
-	}
-	public Total getTotalEnviado() {
-		return totalEnviado;
-	}
-	public void setTotalEnviado(Total totalEnviado) {
-		this.totalEnviado = totalEnviado;
-	}
-	public Total getTotalRecebido() {
-		return totalRecebido;
-	}
-	public void setTotalRecebido(Total totalRecebido) {
-		this.totalRecebido = totalRecebido;
+	public void setTotal(Total total) {
+		this.total = total;
 	}
 }
