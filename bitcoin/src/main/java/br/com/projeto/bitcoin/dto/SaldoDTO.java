@@ -2,6 +2,9 @@ package br.com.projeto.bitcoin.dto;
 
 import java.math.BigInteger;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class SaldoDTO {
 	
 	private BigInteger saldoConfirmado;
