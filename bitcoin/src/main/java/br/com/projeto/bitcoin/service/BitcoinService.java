@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.projeto.bitcoin.dto.BitcoinDTO;
 import br.com.projeto.bitcoin.dto.SaldoDTO;
 import br.com.projeto.bitcoin.entity.Bitcoin;
 import br.com.projeto.bitcoin.entity.SaldoDetalhado;
+import br.com.projeto.bitcoin.entity.Total;
 import br.com.projeto.bitcoin.exception.BitcoinException;
 import br.com.projeto.bitcoin.repository.BitcoinRepository;
 
@@ -25,40 +27,30 @@ public class BitcoinService {
 	@Autowired
 	private BitcoinRepository bitcoinRepository;
    
-	/*
-	public Bitcoin register(Bitcoin bitcoin) {
-		bitcoin.setTotalEnviado(total.getEnviado());
-		bitcoin.setTotalRecebido(total.getRecebido());                    
-		bitcoin.setSaldoConfirmado(saldoDetalhado.getConfirmado());
-		bitcoin.setSaldoNaoConfirmado(saldoDetalhado.getNaoConfirmado());
-		if(bitcoin.getEndereco() == null || bitcoin.getEndereco().isBlank()) {
+	
+	public BitcoinDTO findByEnderecoLike(String address) {
+		if(address == null || address.isBlank()) {
 			throw new BitcoinException(ENDERECO_BITCOIN_NAO_INFORMADO);
-		}else if(bitcoin.getSaldo() == null) {
-			throw new BitcoinException(SALDO_BITCOIN_NAO_INFORMADO);
-		}else if(bitcoin.getTaxaTX()== null) {
-			throw new BitcoinException(TAXATX_BITCOIN_NAO_INFORMADA);
-		}else if(bitcoin.getTotalEnviado() == null) {
-			throw new BitcoinException(TOTAL_ENVIADO_BITCOIN_NAO_INFORMADO);
-		}else if(bitcoin.getTotalRecebido() == null) {
-			throw new BitcoinException(TOTAL_RECEBIDO_BITCOIN_NAO_INFORMADO);
-		}else if(bitcoin.getSaldoConfirmado() == null) {
-			throw new BitcoinException(SALDO_CONFIRMADO_BITCOIN_NAO_INFORMADO);
-		}else if(bitcoin.getSaldoNaoConfirmado() == null) {
-			throw new BitcoinException(SALDO_NAO_CONFIRMADO_BITCOIN_NAO_INFORMADO);
 		}
-		return bitcoinRepository.save(bitcoin);
+		Bitcoin bitcoin = bitcoinRepository.findByEnderecoLike(address);
+		BitcoinDTO bitcoinDTO = new BitcoinDTO();
+		SaldoDTO s = new SaldoDTO();
+		Total t = new Total();
+		
+		bitcoinDTO.setEndereco(bitcoin.getEndereco());
+		bitcoinDTO.setSaldo(bitcoin.getSaldo());
+		bitcoinDTO.setTaxaTX(bitcoin.getTaxaTX());
+		//s.setSaldoConfirmado(bitcoin.getSaldoDetalhado().getSaldoConfirmado());
+		//s.setSaldoNaoConfirmado(bitcoin.getSaldoDetalhado().getSaldoNaoConfirmado());
+		bitcoinDTO.setSaldoDetalhado(bitcoin.getSaldoDetalhado());
+		bitcoinDTO.setTotal(bitcoin.getTotal());
+		
+		return bitcoinDTO;
+	}
+	
+	/*public SaldoDTO findSaldoByEndereco (String endereco) {
+		return bitcoinRepository. findSaldoByEndereco(endereco);
 	}*/
-	
-	public List<Bitcoin> findByAddressLike(String endereco) {
-		if(endereco == null || endereco.isBlank()) {
-			throw new BitcoinException(ENDERECO_BITCOIN_NAO_INFORMADO);
-		}
-		return bitcoinRepository.findByEnderecoLike(endereco);
-	}
-	
-	public SaldoDTO findSaldoByEndereco (String endereco) {
-		return bitcoinRepository.findSaldoByEndereco(endereco);
-	}
 	
 	/*public SaldoConfirmadoDTO returnSaldoConfirmado(Bitcoin bitcoin) {
 		SaldoConfirmadoDTO sc = new SaldoConfirmadoDTO();
