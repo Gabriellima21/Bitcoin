@@ -15,8 +15,8 @@ public class InserirDados {
 		 try (Connection connection = DriverManager.getConnection(URL, USUARIO, SENHA)) {
 	            String sql = "INSERT INTO TOTAL (enviado, recebido) VALUES (?, ?)";
 	            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-	                 preparedStatement.setInt(1, (int) 1189163719343L);
-	                 preparedStatement.setInt(2, (int) 1189307731097L);
+	                 preparedStatement.setLong(1, (Long) 1189163719343L);
+	                 preparedStatement.setLong(2, (Long) 1189307731097L);
 	                preparedStatement.executeUpdate();
 	            }
 	        } catch (SQLException e) {
