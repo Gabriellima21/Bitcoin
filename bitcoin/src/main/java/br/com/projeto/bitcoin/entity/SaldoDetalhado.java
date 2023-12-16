@@ -13,11 +13,11 @@ public class SaldoDetalhado {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer id;
+	private Integer id;
 	@Column(name = "confirmado",nullable = false)
-	BigInteger saldoConfirmado;
+	private BigInteger saldoConfirmado;
 	@Column(name = "naoConfirmado",nullable = false)
-    BigInteger saldoNaoConfirmado;
+	private BigInteger saldoNaoConfirmado;
 	
 	public Integer getId() {
 		return id;
