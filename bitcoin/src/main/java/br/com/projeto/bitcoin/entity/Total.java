@@ -15,14 +15,20 @@ public class Total {
 	
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
-	 Integer id;
+	 private Integer id;
 	 @Column(name = "enviado",nullable = false)
-	 BigInteger enviado;
+	 private BigInteger enviado;
 	 @Column(name = "recebido", nullable = false)
-	 BigInteger recebido;
+	 private BigInteger recebido;
 	 
 	public BigInteger getEnviado() {
 		return enviado;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public void setEnviado(BigInteger enviado) {
 		this.enviado = enviado;
